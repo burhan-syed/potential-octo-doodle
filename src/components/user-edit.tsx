@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { parseISO, format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,8 +63,8 @@ export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       ...user,
-      signUpDate: user?.signUpDate ? new Date(user.signUpDate) : undefined,
-      lastLogin: user?.lastLogin ? new Date(user.lastLogin) : undefined,
+      signUpDate: user?.signUpDate ? parseISO(user.signUpDate) : undefined,
+      lastLogin: user?.lastLogin ? parseISO(user.lastLogin) : undefined,
     },
   });
 
