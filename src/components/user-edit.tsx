@@ -69,7 +69,6 @@ export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
     handleSubmit({
       ...values,
       signUpDate: format(values.signUpDate, "yyyy-MM-dd"),
@@ -188,7 +187,7 @@ export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -229,7 +228,7 @@ export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -266,7 +265,7 @@ export function UserEditFormDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" size={"icon"} className="size-6 p-1">
+        <Button variant="default" size={"icon"} className="p-1 size-6">
           <PencilIcon />
           <span className="sr-only">Edit User</span>
         </Button>
