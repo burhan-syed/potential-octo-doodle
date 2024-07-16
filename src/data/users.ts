@@ -46,5 +46,8 @@ export const sampleUsers = [
   },
 ];
 
-export type User = typeof sampleUsers[number];
+export const UserRoles = ["User", "Admin", "Manager"];
+export const UserStatus = ["Active", "Inactive", "Pending"];
+
+export type User = (typeof sampleUsers)[number];
 export type UserFields = keyof User;

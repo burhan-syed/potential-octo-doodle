@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { sampleUsers, UserFields } from "@/data/users";
+import { UserEditForm } from "./user-edit";
 
 const TABLE_COLUMNS: { display: string; field: UserFields }[] = [
   { display: "ID", field: "id" },
@@ -23,7 +24,9 @@ export function UserTable() {
   const [users, setUsers] = useState(sampleUsers);
 
   return (
-    <Table>
+    <>
+     <UserEditForm user={users[0]}/>
+     <Table>
       <TableHeader>
         <TableRow>
           {TABLE_COLUMNS.map((column) => (
@@ -43,5 +46,7 @@ export function UserTable() {
         ))}
       </TableBody>
     </Table>
+    </>
+   
   );
 }
