@@ -2,9 +2,17 @@ import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, PencilIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -29,6 +37,7 @@ import {
 
 import { User, UserRoles, UserStatus } from "@/data/users";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const FormSchema = z.object({
   id: z.coerce.number().int(),
@@ -243,5 +252,42 @@ export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
         <Button type="submit">Save changes</Button>
       </form>
     </Form>
+  );
+}
+
+export function UserEditFormDialog({
+  user,
+  handleSubmit,
+}: {
+  user: User;
+  handleSubmit: (data: User) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size={"icon"}>
+          <PencilIcon />
+          <span className="sr-only">Edit User</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit User</DialogTitle>
+          <DialogDescription>
+            Click save when you are done making changes.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <UserEditForm
+            user={user}
+            handleSubmit={(data) => {
+              handleSubmit(data);
+              setIsOpen(false);
+            }}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

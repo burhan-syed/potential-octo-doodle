@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { sampleUsers, UserFields, User } from "@/data/users";
-import { UserEditForm } from "./user-edit";
+import { UserEditFormDialog } from "./user-edit";
 import { generateRandomId } from "@/lib/utils";
 
 const TABLE_COLUMNS: { display: string; field: UserFields }[] = [
@@ -35,16 +35,13 @@ export function UserTable() {
 
   return (
     <>
-      <UserEditForm
-        user={users[0]}
-        handleSubmit={(user: User) => updateUser(users[0]._id, user)}
-      />
       <Table>
         <TableHeader>
           <TableRow>
             {TABLE_COLUMNS.map((column) => (
               <TableHead key={column.display}>{column.display}</TableHead>
             ))}
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,6 +52,12 @@ export function UserTable() {
                   {user[column.field]}
                 </TableCell>
               ))}
+              <TableCell>
+                <UserEditFormDialog
+                  user={user}
+                  handleSubmit={(data) => updateUser(user._id, data)}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
