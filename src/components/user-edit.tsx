@@ -266,7 +266,7 @@ export function UserEditFormDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size={"icon"}>
+        <Button variant="default" size={"icon"} className="size-6 p-1">
           <PencilIcon />
           <span className="sr-only">Edit User</span>
         </Button>

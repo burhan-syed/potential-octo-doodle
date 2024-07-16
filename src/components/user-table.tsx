@@ -10,6 +10,8 @@ import {
 import { sampleUsers, UserFields, User } from "@/data/users";
 import { UserEditFormDialog } from "./user-edit";
 import { generateRandomId } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { TrashIcon } from "lucide-react";
 
 const TABLE_COLUMNS: { display: string; field: UserFields }[] = [
   { display: "ID", field: "id" },
@@ -33,6 +35,10 @@ export function UserTable() {
     );
   };
 
+  const deleteUser = (_id: string) => {
+    setUsers((u) => [...u].filter((u) => u._id !== _id));
+  };
+
   return (
     <>
       <Table>
@@ -52,11 +58,19 @@ export function UserTable() {
                   {user[column.field]}
                 </TableCell>
               ))}
-              <TableCell>
+              <TableCell className="flex items-center gap-2">
                 <UserEditFormDialog
                   user={user}
                   handleSubmit={(data) => updateUser(user._id, data)}
                 />
+                <Button
+                  onClick={() => deleteUser(user._id)}
+                  variant={"destructive"}
+                  size={"icon"}
+                  className="size-6 p-1"
+                >
+                  <TrashIcon />
+                </Button>
               </TableCell>
             </TableRow>
           ))}
