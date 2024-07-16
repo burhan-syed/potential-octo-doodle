@@ -46,9 +46,10 @@ const FormSchema = z.object({
 
 type UserEditFormProps = {
   user?: User;
+  handleSubmit: (user: User) => void;
 };
 
-export function UserEditForm({ user }: UserEditFormProps) {
+export function UserEditForm({ user, handleSubmit }: UserEditFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,6 +61,11 @@ export function UserEditForm({ user }: UserEditFormProps) {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     console.log(values);
+    handleSubmit({
+      ...values,
+      signUpDate: format(values.signUpDate, "yyyy-MM-dd"),
+      lastLogin: format(values.lastLogin, "yyyy-MM-dd"),
+    });
   };
 
   return (
@@ -195,7 +201,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
         />
         <FormField
           control={form.control}
-          name="signUpDate"
+          name="lastLogin"
           render={({ field }) => (
             <FormItem className="grid">
               <FormLabel>Last Login</FormLabel>

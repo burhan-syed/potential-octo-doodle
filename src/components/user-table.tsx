@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { sampleUsers, UserFields } from "@/data/users";
+import { sampleUsers, UserFields, User } from "@/data/users";
 import { UserEditForm } from "./user-edit";
+import { generateRandomId } from "@/lib/utils";
 
 const TABLE_COLUMNS: { display: string; field: UserFields }[] = [
   { display: "ID", field: "id" },
@@ -21,32 +22,43 @@ const TABLE_COLUMNS: { display: string; field: UserFields }[] = [
 ];
 
 export function UserTable() {
-  const [users, setUsers] = useState(sampleUsers);
+  const [users, setUsers] = useState(
+    // using an internal _id to allow id field changes without key conflict
+    sampleUsers.map((u) => ({ ...u, _id: generateRandomId() }))
+  );
+
+  const updateUser = (_id: string, user: User) => {
+    setUsers((u) =>
+      [...u].map((u) => (u._id === _id ? { ...user, _id: _id } : u))
+    );
+  };
 
   return (
     <>
-     <UserEditForm user={users[0]}/>
-     <Table>
-      <TableHeader>
-        <TableRow>
-          {TABLE_COLUMNS.map((column) => (
-            <TableHead key={column.display}>{column.display}</TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {users.map((user) => (
-          <TableRow key={user.id}>
+      <UserEditForm
+        user={users[0]}
+        handleSubmit={(user: User) => updateUser(users[0]._id, user)}
+      />
+      <Table>
+        <TableHeader>
+          <TableRow>
             {TABLE_COLUMNS.map((column) => (
-              <TableCell key={column.field} className="text-start">
-                {user[column.field]}
-              </TableCell>
+              <TableHead key={column.display}>{column.display}</TableHead>
             ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {users.map((user) => (
+            <TableRow key={user._id}>
+              {TABLE_COLUMNS.map((column) => (
+                <TableCell key={column.field} className="text-start">
+                  {user[column.field]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
-   
   );
 }
